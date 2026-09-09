@@ -5,10 +5,11 @@ from helpers import get_financial_summary, prepare_chart_data, CATEGORIES
 from datetime import datetime
 import json
 import functools
+import os
 
 app = Flask(__name__,
 static_folder='static')
-app.secret_key = 'stephanie_budget_secret_2025'
+app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key')
 
 def login_required(f):
     @functools.wraps(f)
