@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class='form-box'>
+  <h2>Add Transaction</h2>
+  <form method='POST'>
+    <label>Type</label>
+    <select name='type' required>
+      <option value='income'>Income</option>
+      <option value='expense'>Expense</option>
+    </select>
+    <label>Amount (&#8358;)</label>
+    <input type='number' name='amount' step='0.01' min='0.01' required>
+    <label>Category</label>
+    <select name='category' required>
+      {% for cat in categories %}
+        <option value='{{ cat }}'>{{ cat }}</option>
+      {% endfor %}
+    </select>
+    <label>Description (optional)</label>
+    <input type='text' name='description'>
+    <label>Date</label>
+    <input type='date' name='date' required>
+    <button type='submit'>Save Transaction</button>
+  </form>
+</div>
+{% endblock %}

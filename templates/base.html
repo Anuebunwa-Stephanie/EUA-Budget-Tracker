@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{% block title %}EUA Campus Budget Tracker{% endblock %}</title>
+
+  <link rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+{% if session.user_id %}
+
+  <!-- =========================
+       LOGGED-IN USER LAYOUT
+       ========================= -->
+
+  <aside class="sidebar">
+
+    <div class="sidebar-brand">
+
+      <div class="brand-icon">💸</div>
+
+      <div>
+        <div class="brand-title">EUA Budget</div>
+        <div class="brand-subtitle">Campus Tracker</div>
+      </div>
+
+    </div>
+
+    <div class="nav-label">MENU</div>
+
+    <nav class="sidebar-nav">
+
+      <a href="{{ url_for('dashboard') }}"
+         class="nav-item {% if request.endpoint == 'dashboard' %}active{% endif %}">
+        <span class="nav-icon">🏠</span>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="{{ url_for('add_transaction') }}"
+         class="nav-item {% if request.endpoint == 'add_transaction' %}active{% endif %}">
+        <span class="nav-icon">➕</span>
+        <span>Add Transaction</span>
+      </a>
+
+      <a href="{{ url_for('transactions') }}"
+         class="nav-item {% if request.endpoint == 'transactions' %}active{% endif %}">
+        <span class="nav-icon">🧾</span>
+        <span>Transactions</span>
+      </a>
+
+      <a href="{{ url_for('reports') }}"
+         class="nav-item {% if request.endpoint == 'reports' %}active{% endif %}">
+        <span class="nav-icon">📊</span>
+        <span>Reports</span>
+      </a>
+
+      <a href="{{ url_for('profile') }}"
+         class="nav-item {% if request.endpoint == 'profile' %}active{% endif %}">
+        <span class="nav-icon">👤</span>
+        <span>Profile</span>
+      </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+
+      <div class="sidebar-tip">
+        <div class="tip-icon">💡</div>
+
+        <div>
+          <strong>Money tip</strong>
+          <p>Track small expenses. They add up!</p>
+        </div>
+      </div>
+
+      <a href="{{ url_for('logout') }}" class="logout-btn">
+        <span>🚪</span>
+        Logout
+      </a>
+
+    </div>
+
+  </aside>
+
+
+  <main class="main-content">
+
+    <header class="topbar">
+
+      <div class="mobile-brand">
+        💸 EUA Budget
+      </div>
+
+      <div class="topbar-spacer"></div>
+
+      <div class="user-pill">
+        <div class="user-avatar">👤</div>
+
+        <div>
+          <span class="user-small">Student</span>
+          <strong>My Account</strong>
+        </div>
+      </div>
+
+    </header>
+
+
+    <div class="page-content">
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% for category, message in messages %}
+
+          <div class="alert {{ category }}">
+
+            <span class="alert-icon">
+              {% if category == 'success' %}
+                ✓
+              {% else %}
+                ⚠
+              {% endif %}
+            </span>
+
+            {{ message }}
+
+          </div>
+
+        {% endfor %}
+
+      {% endwith %}
+
+{% else %}
+
+  <!-- =========================
+       LOGIN / REGISTER LAYOUT
+       ========================= -->
+
+  <main class="auth-page">
+
+    <div class="auth-decoration decoration-one"></div>
+    <div class="auth-decoration decoration-two"></div>
+
+    <div class="auth-brand">
+
+      <div class="brand-icon">💸</div>
+
+      <div>
+        <div class="brand-title">EUA Budget</div>
+        <div class="brand-subtitle">Campus Tracker</div>
+      </div>
+
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+      {% for category, message in messages %}
+
+        <div class="auth-alert alert {{ category }}">
+
+          <span class="alert-icon">
+            {% if category == 'success' %}
+              ✓
+            {% else %}
+              ⚠
+            {% endif %}
+          </span>
+
+          {{ message }}
+
+        </div>
+
+      {% endfor %}
+
+    {% endwith %}
+
+{% endif %}
+
+
+<!-- =================================================
+     THERE IS ONLY ONE CONTENT BLOCK IN THIS FILE
+     ================================================= -->
+
+{% block content %}{% endblock %}
+
+
+{% if session.user_id %}
+
+    </div>
+  </main>
+
+{% else %}
+
+  </main>
+
+{% endif %}
+
+
+</body>
+</html>

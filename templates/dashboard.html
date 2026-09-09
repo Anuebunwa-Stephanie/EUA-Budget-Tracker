@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Dashboard</h2>
+<div class='cards'>
+  <div class='card green'>
+    <p>Total Income</p>
+    <h3>&#8358;{{ '{:,.2f}'.format(total_income) }}</h3>
+  </div>
+  <div class='card red'>
+    <p>Total Expenses</p>
+    <h3>&#8358;{{ '{:,.2f}'.format(total_expense) }}</h3>
+  </div>
+  <div class='card blue'>
+    <p>Balance</p>
+    <h3>&#8358;{{ '{:,.2f}'.format(balance) }}</h3>
+  </div>
+</div>
+<div class='chart-box'>
+  <h3>Spending by Category</h3>
+  <canvas id='pieChart' width='400' height='300'></canvas>
+</div>
+<script>
+  const labels  = {{ chart_labels  | safe }};
+  const amounts = {{ chart_amounts | safe }};
+  new Chart(document.getElementById('pieChart'), {
+    type: 'pie',
+    data: {
+      labels: labels,
+      datasets: [{ data: amounts,
+        backgroundColor: ['#3498db','#e74c3c','#2ecc71',
+                          '#f39c12','#9b59b6','#1abc9c',
+                          '#e67e22','#95a5a6'] }]
+    }
+  });
+</script>
+{% endblock %}

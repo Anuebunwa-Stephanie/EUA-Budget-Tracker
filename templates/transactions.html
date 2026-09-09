@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Transaction History</h2>
+<a class='btn' href="{{ url_for('add_transaction') }}">+ Add New</a>
+<table>
+  <tr>
+    <th>Date</th><th>Type</th><th>Category</th>
+    <th>Description</th><th>Amount (&#8358;)</th><th>Action</th>
+  </tr>
+  {% for r in records %}
+  <tr>
+    <td>{{ r['date'] }}</td>
+    <td>{{ r['type'] }}</td>
+    <td>{{ r['category'] }}</td>
+    <td>{{ r['description'] or '' }}</td>
+    <td>{{ '{:,.2f}'.format(r['amount']) }}</td>
+    <td>
+      <form method='POST'
+            action="{{ url_for('delete_transaction', id=r['id']) }}">
+        <button type='submit' class='btn-delete'
+          onclick="return confirm('Delete this record?')">Delete</button>
+      </form>
+    </td>
+  </tr>
+  {% else %}
+  <tr><td colspan='6'>No transactions yet.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

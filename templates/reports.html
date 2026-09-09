@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Reports</h2>
+<div class='chart-box'>
+  <h3>Monthly Income vs Expenses</h3>
+  <canvas id='barChart' width='600' height='300'></canvas>
+</div>
+<div class='chart-box'>
+  <h3>Spending Breakdown by Category</h3>
+  <canvas id='catPie' width='400' height='300'></canvas>
+</div>
+<script>
+  const months   = {{ months   | safe }};
+  const incomes  = {{ incomes  | safe }};
+  const expenses = {{ expenses | safe }};
+  new Chart(document.getElementById('barChart'), {
+    type: 'bar',
+    data: {
+      labels: months,
+      datasets: [
+        { label: 'Income',  data: incomes,
+          backgroundColor: '#2ecc71' },
+        { label: 'Expense', data: expenses,
+          backgroundColor: '#e74c3c' }
+      ]
+    }
+  });
+  const catLabels  = {{ cat_labels  | safe }};
+  const catAmounts = {{ cat_amounts | safe }};
+  new Chart(document.getElementById('catPie'), {
+    type: 'pie',
+    data: {
+      labels: catLabels,
+      datasets: [{ data: catAmounts,
+        backgroundColor: ['#3498db','#e74c3c','#2ecc71',
+                          '#f39c12','#9b59b6','#1abc9c',
+                          '#e67e22','#95a5a6'] }]
+    }
+  });
+</script>
+{% endblock %}
