@@ -178,6 +178,8 @@ def profile():
     conn.close()
     return render_template('profile.html', user=user)
 
+
+init_db()
 if __name__ == '__main__':
-    init_db()
+
     app.run(debug=True)
